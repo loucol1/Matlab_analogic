@@ -95,16 +95,18 @@ M9C = phvtlp;
 M9D = phvtlp;
 
 %% Design algorithm without gm/Id
+%Cox = (omega_u^2*Cc)/(u_n*4*SR)
 L6 = sqrt((3*u_p*V_HR*Cc)/(2*fT*2*pi*(Cc+CL)*tand(Pm)));
 W6 = (2*SR*(Cc+CL)*L6)/(u_p*Cox*(V_HR)^2);
 WL6 = W6/L6
 
-WL1 = ((omega_u)^2*Cc)/(u_n*Cox*SR)
-WL5 = (2*SR*Cc)/(u_n*Cox*(V_CMHR-V_tn-SR/omega_u)^2)
-WL7 = ((Cc+CL)/Cc)*WL5
-WL3 = ((WL6)/2*WL7)*WL5
-
-WL9 =((2*Cc*SR)/(u_p*Cox*V_HR*(Vdd-V_HR-2*abs(V_tp))))
+%cox = interp1(M1.GMID, M1.CGS, gmid4,'spline')
+WL1 = (omega_u^2*Cc)/(u_n*Cox*SR)
+% WL5 = (2*SR*Cc)/(u_n*Cox*(V_CMHR-V_tn-SR/omega_u)^2)
+% WL7 = ((Cc+CL)/Cc)*WL5
+% WL3 = ((WL6)/2*WL7)*WL5
+% 
+% WL9 =((2*Cc*SR)/(u_p*Cox*V_HR*(Vdd-V_HR-2*abs(V_tp))))
 
 
 

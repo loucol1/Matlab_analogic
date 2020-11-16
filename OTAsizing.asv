@@ -95,61 +95,63 @@ M9C = phvtlp;
 M9D = phvtlp;
 
 %% Design algorithm without gm/Id
+Cox = (omega_u^2*Cc)/(u_n*4*SR)
 L6 = sqrt((3*u_p*V_HR*Cc)/(2*fT*2*pi*(Cc+CL)*tand(Pm)));
 W6 = (2*SR*(Cc+CL)*L6)/(u_p*Cox*(V_HR)^2);
+WL6 = W6/L6
 
-WL1 = ((omega_u)^2*Cc)/(u_n*Cox*SR);
-WL5 = (2*SR*Cc)/(u_n*Cox*(V_CMHR-V_tn-SR/omega_u)^2);
-WL7 = ((Cc+CL)/Cc)*WL5;
-WL3 = ((WL6)/2*WL7)*WL5;
-
-WL9 =((2*Cc*SR)/(u_p*Cox*V_HR*(Vdd-V_HR-2*abs(V_tp))));
+WL1 = 
+% WL5 = (2*SR*Cc)/(u_n*Cox*(V_CMHR-V_tn-SR/omega_u)^2)
+% WL7 = ((Cc+CL)/Cc)*WL5
+% WL3 = ((WL6)/2*WL7)*WL5
+% 
+% WL9 =((2*Cc*SR)/(u_p*Cox*V_HR*(Vdd-V_HR-2*abs(V_tp))))
 
 
 
 %% Design algorithm with gm/Id
-in1 = interp1(M1.GMID, M1.IN, gmid1,'spline');
-%peut définir le gain! Veaeq?
-%Veaeq = 1/(1/interp1(M6.GMID, M6.VEA, gmid6,'spline') + 1/interp1(M7.GMID, M7.VEA, gmid7,'spline')); 
-%Gain = gmid1*Veaeq*gmid6*Veaeq;
-gm1 = 2*pi*fT*Cc;
-id1 = gm1/gmid1;
-W1 = id1/in1*L1;
-W2 = W1;
+% in1 = interp1(M1.GMID, M1.IN, gmid1,'spline');
+% %peut définir le gain! Veaeq?
+% %Veaeq = 1/(1/interp1(M6.GMID, M6.VEA, gmid6,'spline') + 1/interp1(M7.GMID, M7.VEA, gmid7,'spline')); 
+% %Gain = gmid1*Veaeq*gmid6*Veaeq;
+% gm1 = 2*pi*fT*Cc;
+% id1 = gm1/gmid1;
+% W1 = id1/in1*L1;
+% W2 = W1;
+% 
+% L6 = sqrt((3*u_p*V_HR*Cc)/(2*fT*2*pi*(Cc+CL)*tand(Pm)));
+% W6 = (2*SR*(Cc+CL)*L6)/(u_p*Cox*(V_HR)^2);
+% W_over_L_6 = W6/L6;
+% 
+% id5 = Cc*SR;
+% 
+% %%atention
+% in5 = interp1(M5.GMID, M5.IN, gmid1,'spline');
+% W5 = id5/in5*L5;
+% W8 = W5;
+% 
+% W7 = ((Cc+CL)/(Cc))*W5;
+% 
+% W3 = L3*( W_over_L_6/(2*W7) * W5 );
+% W4 = W3;
+% 
+% W9 = L9*((2*Cc*SR)/(u_p*Cox*V_HR*(Vdd-V_HR-2*abs(V_tp))));
+% 
 
-L6 = sqrt((3*u_p*V_HR*Cc)/(2*fT*2*pi*(Cc+CL)*tand(Pm)));
-W6 = (2*SR*(Cc+CL)*L6)/(u_p*Cox*(V_HR)^2);
-W_over_L_6 = W6/L6;
-
-id5 = Cc*SR;
-
-%%atention
-in5 = interp1(M5.GMID, M5.IN, gmid1,'spline');
-W5 = id5/in5*L5;
-W8 = W5;
-
-W7 = ((Cc+CL)/(Cc))*W5;
-
-W3 = L3*( W_over_L_6/(2*W7) * W5 );
-W4 = W3;
-
-W9 = L9*((2*Cc*SR)/(u_p*Cox*V_HR*(Vdd-V_HR-2*abs(V_tp))));
-
-one = W1/L1
-two = W2/L2
-three = W3/L3
-four = W4/L4
-five = W5/L5
-six = W6/L6
-seven = W7/L7
-eight = W8/L8
-nine = W9/L9
-
+% 
     
 
 
 %---------------------------------------------
-
+% one = W1/L1
+% two = W2/L2
+% three = W3/L3
+% four = W4/L4
+% five = W5/L5
+% six = W6/L6
+% seven = W7/L7
+% eight = W8/L8
+% nine = W9/L9
 %---------------------------------------------
 % Gain, poles and zeros
 %---------------------------------------------
