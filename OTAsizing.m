@@ -55,13 +55,6 @@ L = 2e-6;
 Vout_max = 2;
 u_p = 0.01156; %[m^2/V*s]
 u_n = 0.0506; %[m^2/V*s]
-V_HR = Vdd-Vout_max;
-E0 = 8.854e-12; %[F/m]
-Er = 3.9; %for SiO2;
-tox = 9.6e-9; %[m]
-Cox = E0*Er/tox;
-V_tp = -0.901;
-V_tn = 0.711;
 V_CM = 1;
 V_CMHR = Vdd-V_CM;
 
@@ -74,7 +67,6 @@ L9A = L; L9B = L;
 L9C = L; L9D = L;
 
 %% Design choices
-gmid1 = 15;
 %gmid6 = 10; must be determine from the value of the tension
 %gmid7 = gmid6;
 
@@ -117,11 +109,15 @@ M9D = phvtlp;
 % %Veaeq = 1/(1/interp1(M6.GMID, M6.VEA, gmid6,'spline') + 1/interp1(M7.GMID, M7.VEA, gmid7,'spline')); 
 % %Gain = gmid1*Veaeq*gmid6*Veaeq;
 % gmid1 = 16.5;
+gmid1 = 16.5;
 in1 = interp1(M1.GMID, M1.IN, gmid1,'spline');
 gm1 = 2*pi*fT*Cc;
 id1 = gm1/gmid1;
 W1 = id1/in1*L1;
 WL1 = W1/L1
+W2 = W1;
+gmid2 = gmid1;
+id2 = id1;
 % gmid6 = 30;
 % Cox = interp1(M6.GMID, M6.CGS, gmid6,'spline');
 % % W2 = W1;
@@ -145,7 +141,7 @@ in7 = interp1(M7.GMID, M7.IN, gmid7,'spline');
 id7 = in7*WL7;
 id6 = id7;
 
-gmid6 = 12.4;
+gmid6 = 12.5;
 gm6 = gmid6*id6;
 omega_T6 = tand(Pm)*omega_u*((Cc+CL)/Cc); %formula 30
 W6L6 = gm6/(omega_T6*2/3*interp1(M6.GMID, M6.CGS, gmid6,'spline')); %formula 31
@@ -153,10 +149,12 @@ in6 = interp1(M6.GMID, M6.IN, gmid6,'spline');
 W6sL6 = id6/in6;
 L6 = sqrt(W6L6/W6sL6);
 W6 = W6L6/L6;
-WL6 = W6/L6;
+WL6 = W6/L6
 
 
-WL3 = WL6/(2*WL7) * WL5 
+WL3 = WL6/(2*WL7) * WL5; 
+WL4 = WL3;
+
  
 Vsg6 = interp1(M6.GMID, M6.VGS, gmid6,'spline');
 V_tp = 0.243;
@@ -169,10 +167,44 @@ Cox = E0*Er/tox;
 
 
 W9 = L9*((2*Cc*SR)/(u_p*Cox*V_HR*(Vdd-V_HR-2*abs(V_tp))));
-WL9 = W9/L9
- 
+WL9 = W9/L9;
 
- 
+gd2 = id2/interp1(M2.GMID, M2.VEA, gmid2,'spline');
+id4 = id1;
+in4 = id4/WL4;
+gmid4 = interp1(M4.IN, M4.GMID, in4, 'spline');
+gd4 = id4/interp1(M4.GMID, M4.VEA, gmid4,'spline');
+gd6 = id6/interp1(M6.GMID, M6.VEA, gmid6,'spline');
+gd7 = id7/interp1(M7.GMID, M7.VEA, gmid7,'spline');
+RA = 1/(gd2+gd4);
+RB = 1/(gd6+gd7);
+A0 = gm1*gm6*RA*RB;
+A0_dB = 20*log10(A0);
+
+Pole_dp = 1/(gm6*RA*RB*Cc);
+
+Pole_dn = gm6*Cc/(CL*2/3*W6*L6*interp1(M6.GMID, M6.CGS, gmid6,'spline'));
+
+num = A0;
+den=conv([1/Pole_dn 1],[1/Pole_dp 1]);
+sys = tf(num,den);
+sys2 = feedback(sys,1);
+
+figure;
+bode(sys,sys2,{1e0,1e12})
+grid on
+axes_handles = findall(gcf, 'type', 'axes');
+legend(axes_handles(3),'Open-loop gain','Closed-loop gain')
+
+
+figure;
+margin(sys)
+xlim([1 1e12])
+grid on
+
+[Gm,Pm,Wg,Wp] = margin(sys);
+Pm
+
     
 
 
