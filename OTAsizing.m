@@ -133,8 +133,15 @@ in5 = interp1(M5.GMID, M5.IN, gmid5,'spline');
 W5 = id5/in5*L5;
 WL5 = W5/L5
 W8 = W5;
+WL8 = WL5;
+in8 = in5;
+id8 = in8*WL8;
+Vgs8 = interp1(M8.GMID, M8.VGS, gmid5, 'spline');
+Vg8 = Vgs8+Vss;
+R_bias = (Vdd-Vg8)/id8;
 
-WL7 = ((Cc+CL)/(Cc))*WL5
+WL7 = ((Cc+CL)/(Cc))*WL5;
+W7 = WL7*L7;
 
 gmid7 = 10;
 in7 = interp1(M7.GMID, M7.IN, gmid7,'spline');
@@ -153,6 +160,7 @@ WL6 = W6/L6
 
 
 WL3 = WL6/(2*WL7) * WL5; 
+W3 = WL3*L3;
 WL4 = WL3;
 
  
