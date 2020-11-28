@@ -149,6 +149,7 @@ id7 = in7*WL7;
 id6 = id7;
 
 gmid6 = 12.5;
+%gmid6 = 8;
 gm6 = gmid6*id6;
 omega_T6 = tand(Pm)*omega_u*((Cc+CL)/Cc); %formula 30
 W6L6 = gm6/(omega_T6*2/3*interp1(M6.GMID, M6.CGS, gmid6,'spline')); %formula 31
@@ -184,6 +185,11 @@ gmid4 = interp1(M4.IN, M4.GMID, in4, 'spline');
 gd4 = id4/interp1(M4.GMID, M4.VEA, gmid4,'spline');
 gd6 = id6/interp1(M6.GMID, M6.VEA, gmid6,'spline');
 gd7 = id7/interp1(M7.GMID, M7.VEA, gmid7,'spline');
+gmid7test = [0:1:15];
+in7test = interp1(M7.GMID, M7.IN, gmid7test,'spline');
+id7test = in7test*WL7;
+gd7test = id7test./interp1(M7.GMID, M7.VEA, gmid7test,'spline');
+semilogy(gmid7test,gd7test);
 RA = 1/(gd2+gd4);
 RB = 1/(gd6+gd7);
 A0 = gm1*gm6*RA*RB;
@@ -197,6 +203,10 @@ num = A0;
 den=conv([1/Pole_dn 1],[1/Pole_dp 1]);
 sys = tf(num,den);
 sys2 = feedback(sys,1);
+vgs1 = interp1(M1.GMID, M1.VGS, gmid1,'spline');
+Vdsat5 = interp1(M5.GMID, M5.VDSAT, gmid5, 'slpine');
+Vin = vgs1+Vdsat5;
+
 
 figure;
 bode(sys,sys2,{1e0,1e12})
