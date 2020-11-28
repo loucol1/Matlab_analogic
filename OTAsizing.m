@@ -48,7 +48,7 @@ Vss = -2.5;
 CL = 5e-12; %[F]
 fT = 5e6;
 omega_u = 2*pi*fT;
-Pm = 65;
+Pm = 85;
 SR = 5e6; %[V/s]
 Cc = 2.5e-12;
 L = 2e-6;
@@ -143,13 +143,13 @@ R_bias = (Vdd-Vg8)/id8;
 WL7 = ((Cc+CL)/(Cc))*WL5;
 W7 = WL7*L7;
 
+%gmid7 = 5;
 gmid7 = 10;
 in7 = interp1(M7.GMID, M7.IN, gmid7,'spline');
 id7 = in7*WL7;
 id6 = id7;
 
 gmid6 = 12.5;
-%gmid6 = 8;
 gm6 = gmid6*id6;
 omega_T6 = tand(Pm)*omega_u*((Cc+CL)/Cc); %formula 30
 W6L6 = gm6/(omega_T6*2/3*interp1(M6.GMID, M6.CGS, gmid6,'spline')); %formula 31
@@ -189,14 +189,15 @@ gmid7test = [0:1:15];
 in7test = interp1(M7.GMID, M7.IN, gmid7test,'spline');
 id7test = in7test*WL7;
 gd7test = id7test./interp1(M7.GMID, M7.VEA, gmid7test,'spline');
-semilogy(gmid7test,gd7test);
+%semilogy(gmid7test,gd7test);
 RA = 1/(gd2+gd4);
 RB = 1/(gd6+gd7);
 A0 = gm1*gm6*RA*RB;
 A0_dB = 20*log10(A0);
 
 Pole_dp = 1/(gm6*RA*RB*Cc);
-
+numerateur = gm6*Cc;
+denominateur = (CL*2/3*W6*L6*interp1(M6.GMID, M6.CGS, gmid6,'spline'));
 Pole_dn = gm6*Cc/(CL*2/3*W6*L6*interp1(M6.GMID, M6.CGS, gmid6,'spline'));
 
 num = A0;
@@ -264,12 +265,12 @@ Pm
 % 
 % %% Algorithm results
 % 
-% fid = fopen('OTA.txt','wt');
-% fprintf(fid,'------------------------------------------------------------------\n');
-% fprintf(fid,'Performances\n');
-% fprintf(fid,'------------------------------------------------------------------\n');
+ fid = fopen('OTA.txt','wt');
+ fprintf(fid,'------------------------------------------------------------------\n');
+ fprintf(fid,'Performances\n');
+ fprintf(fid,'------------------------------------------------------------------\n');
 % fprintf(fid,'Gain: %.4g [dB]\n', 20*log10(Gain));
-% fprintf(fid,'Transition frequency: %.4g [MHz]\n',Wp/(2*pi)*1e-6);
+ fprintf(fid,'Transition frequency: %.4g [MHz]\n',Wp/(2*pi)*1e-6);
 % fprintf(fid,'Dominant pole: %.4g [kHz]\n',Poled/(2*pi)*1e-3);
 % fprintf(fid,'Position of polep: %.5g [MHz]\n',Polep/(2*pi)*1e-6);
 % fprintf(fid,'Position of polen: %.5g [MHz]\n',Polen/(2*pi)*1e-6);
