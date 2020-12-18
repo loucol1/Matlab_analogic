@@ -43,12 +43,12 @@ phvtlp.VGS = phvtlp.VGS(Iph:end);   phvtlp.GMID = phvtlp.GMID(Iph:end);   phvtlp
 % obtain_techno_curves({plvtlp psvtlp phvtlp}, {'plvtlp', 'psvtlp', 'phvtlp'});
 
 %% Specifications
-Vdd = 2.5;
-Vss = -2.5;
+Vdd = 1.2;
+Vss = -1.2;
 CL = 5e-12; %[F]
 fT = 5e6;
 omega_u = 2*pi*fT;
-Pm = 85;
+Pm = 80;
 SR = 5e6; %[V/s]
 Cc = 2.5e-12;
 L = 2e-6;
@@ -206,8 +206,8 @@ sys = tf(num,den);
 sys2 = feedback(sys,1);
 vgs1 = interp1(M1.GMID, M1.VGS, gmid1,'spline');
 Vdsat5 = interp1(M5.GMID, M5.VDSAT, gmid5, 'slpine');
-Vin = vgs1+Vdsat5;
-
+Vin = vgs1+Vdsat5-Vdd;
+%!!!!!!!!-Vdd!!!!!!!!!!!
 
 figure;
 bode(sys,sys2,{1e0,1e12})
