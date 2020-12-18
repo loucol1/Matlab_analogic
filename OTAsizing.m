@@ -109,7 +109,7 @@ M9D = phvtlp;
 % %Veaeq = 1/(1/interp1(M6.GMID, M6.VEA, gmid6,'spline') + 1/interp1(M7.GMID, M7.VEA, gmid7,'spline')); 
 % %Gain = gmid1*Veaeq*gmid6*Veaeq;
 % gmid1 = 16.5;
-gmid1 = 16.5;
+gmid1 = 9;
 in1 = interp1(M1.GMID, M1.IN, gmid1,'spline');
 gm1 = 2*pi*fT*Cc;
 id1 = gm1/gmid1;
@@ -144,12 +144,12 @@ WL7 = ((Cc+CL)/(Cc))*WL5;
 W7 = WL7*L7;
 
 %gmid7 = 5;
-gmid7 = 10;
+gmid7 = 5;
 in7 = interp1(M7.GMID, M7.IN, gmid7,'spline');
 id7 = in7*WL7;
 id6 = id7;
 
-gmid6 = 12.5;
+gmid6 = 5;
 gm6 = gmid6*id6;
 omega_T6 = tand(Pm)*omega_u*((Cc+CL)/Cc); %formula 30
 W6L6 = gm6/(omega_T6*2/3*interp1(M6.GMID, M6.CGS, gmid6,'spline')); %formula 31
